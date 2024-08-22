@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/renesandro/static/css/main.b0e7bdd7.css",
+    "main.js": "/renesandro/static/js/main.da964af1.js",
+    "index.html": "/renesandro/index.html",
+    "main.b0e7bdd7.css.map": "/renesandro/static/css/main.b0e7bdd7.css.map",
+    "main.da964af1.js.map": "/renesandro/static/js/main.da964af1.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b0e7bdd7.css",
+    "static/js/main.da964af1.js"
+  ]
+}
