@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/renesandro/static/css/main.b0e7bdd7.css",
-    "main.js": "/renesandro/static/js/main.da964af1.js",
-    "index.html": "/renesandro/index.html",
-    "main.b0e7bdd7.css.map": "/renesandro/static/css/main.b0e7bdd7.css.map",
-    "main.da964af1.js.map": "/renesandro/static/js/main.da964af1.js.map"
+    "main.css": "/Renesandro/static/css/main.b0e7bdd7.css",
+    "main.js": "/Renesandro/static/js/main.da964af1.js",
+    "index.html": "/Renesandro/index.html",
+    "main.b0e7bdd7.css.map": "/Renesandro/static/css/main.b0e7bdd7.css.map",
+    "main.da964af1.js.map": "/Renesandro/static/js/main.da964af1.js.map"
   },
   "entrypoints": [
     "static/css/main.b0e7bdd7.css",
