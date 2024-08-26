@@ -4,14 +4,14 @@ import { taskImages } from "../../../Types/Types";
 import { Label } from "../../Ui/Label";
 
 interface ImageProps {
-  image: taskImages;
-  setEditingImages: React.Dispatch<React.SetStateAction<taskImages[]>>;
+  value: taskImages;
+  setEditing: React.Dispatch<React.SetStateAction<taskImages[]>>;
   index: number;
 }
 
-const InputGenPerRef = ({ image, setEditingImages, index }: ImageProps) => {
+const InputGenPerRef = ({ value, setEditing, index }: ImageProps) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEditingImages((prevImages) =>
+    setEditing((prevImages) =>
       prevImages.map((img, i) =>
         i === index ? { ...img, gen_per_ref: Number(event.target.value) } : img
       )
@@ -33,7 +33,7 @@ const InputGenPerRef = ({ image, setEditingImages, index }: ImageProps) => {
           min={0}
           max={20}
           placeholder="Gen per ref"
-          value={image.gen_per_ref}
+          value={value.gen_per_ref}
           onChange={(event) => handleChange(event)}
         />
       </div>

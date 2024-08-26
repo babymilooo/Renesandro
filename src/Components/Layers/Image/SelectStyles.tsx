@@ -9,14 +9,13 @@ import {
 } from "../../../Components/Ui/Select";
 
 interface ImageProps {
-  image: taskImages;
-  setEditingImages: React.Dispatch<React.SetStateAction<taskImages[]>>;
+  setEditing: React.Dispatch<React.SetStateAction<taskImages[]>>;
   index: number;
 }
 
-const SelectStyles = ({ image, setEditingImages, index }: ImageProps) => {
+const SelectStyles = ({ setEditing, index }: ImageProps) => {
   const handleChange = (index: number, newStyle: string) => {
-    setEditingImages((prevImages) =>
+    setEditing((prevImages) =>
       prevImages.map((img, i) =>
         i === index ? { ...img, style: newStyle } : img
       )

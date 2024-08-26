@@ -7,6 +7,7 @@ export interface taskImages {
   manual_prompts: string;
   gen_per_ref: number;
   flow: string;
+  type: string;
 }
 
 export interface Task {

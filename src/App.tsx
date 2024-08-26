@@ -1,5 +1,8 @@
 import {
+  ArrowLeftIcon,
   CaretDownIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
   DimensionsIcon,
   FrameIcon,
   LetterCaseCapitalizeIcon,
@@ -8,10 +11,43 @@ import {
 import CreateNewTask from "./Components/CreateNewTask";
 import { useTaskContext } from "./Store/Hooks/useTaskContext";
 import { Link, Navigate, redirect, useNavigate } from "react-router-dom";
-
+import toast, { Toaster } from "react-hot-toast";
+import { useState } from "react";
+const ITEMS_PER_PAGE = 10;
 function App() {
   const { tasks } = useTaskContext();
   const navigate = useNavigate();
+  const [currentPage, setCurrentPage] = useState(1);
+  const handleGenerate = async (task: any) => {
+    try {
+      const response = await fetch(
+        "https://tz-front-jvqis72guq-lm.a.run.app/tz-front/generate_formats",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Basic cmVuZXNhbmRybzpxd2VydHkxMjM0",
+          },
+          body: JSON.stringify(task),
+        }
+      );
+      console.log(task);
+      const data = await response.json();
+      toast.success(data.message);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const totalPages = Math.ceil(tasks.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const currentTasks = tasks.slice(startIndex, endIndex);
+
+  const handlePageChange = (page: number) => {
+    if (page < 1 || page > totalPages) return; // Prevent invalid page numbers
+    setCurrentPage(page);
+  };
 
   return (
     <div className="w-full h-screen">
@@ -69,7 +105,7 @@ function App() {
               </tr>
             </thead>
             <tbody>
-              {tasks.map((item) => (
+              {currentTasks.map((item) => (
                 <tr
                   key={item.id}
                   className="hover:bg-neutral-100 border-b border-neutral-300"
@@ -142,11 +178,17 @@ function App() {
                     </span>
                   </td>
                   <td className="p-2 border-r flex justify-center">
-                    <button className="px-2 bg-yellow-200 border border-yellow-400 text-black rounded-lg">
+                    <button
+                      className="px-2 bg-yellow-200 border border-yellow-400 text-black rounded-lg"
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        handleGenerate(item);
+                      }}
+                    >
                       Generate
                     </button>
                   </td>
-                  <td className="p-2 border-r">
+                  <td className="p-2">
                     <div className="flex justify-center">
                       <button
                         className="px-2 bg-green-200 border border-green-400 text-black rounded-lg"
@@ -165,16 +207,53 @@ function App() {
                 </tr>
               ))}
             </tbody>
-            <tfoot>
+            {/* <tfoot>
               <tr>
                 <td colSpan={10} className="p-2 text-neutral-500 text-start">
                   total {tasks.length}
+                </td>
+              </tr>
+            </tfoot> */}
+            <tfoot>
+              <tr>
+                <td colSpan={5} className="p-2 text-neutral-500 text-start">
+                  total {tasks.length}
+                </td>
+                <td colSpan={5} className="p-2 text-neutral-500 text-start">
+                  <div className="flex justify-end gap-2 items-center w-full">
+                    {/* <button
+                      className="px-4 py-2 bg-blue-500 text-white rounded-lg"
+                      onClick={() => handlePageChange(currentPage - 1)}
+                      disabled={currentPage === 1}
+                    >
+                      Previous
+                    </button> */}
+                    <ChevronLeftIcon
+                      className="w-6 h-6 text-neutral-500 border-2 border-neutral-500 rounded-md cursor-pointer"
+                      onClick={() => handlePageChange(currentPage - 1)}
+                    />
+                    <span className="text-sm text-neutral-600">
+                      Page {currentPage} of {totalPages}
+                    </span>
+                    {/* <button
+                      className="px-4 py-2 bg-blue-500 text-white rounded-lg"
+                      onClick={() => handlePageChange(currentPage + 1)}
+                      disabled={currentPage === totalPages}
+                    >
+                      Next
+                    </button> */}
+                    <ChevronRightIcon
+                      className="w-6 h-6 text-neutral-500 border-2 border-neutral-500 rounded-md cursor-pointer"
+                      onClick={() => handlePageChange(currentPage + 1)}
+                    />
+                  </div>
                 </td>
               </tr>
             </tfoot>
           </table>
         </div>
       </div>
+      <Toaster position="bottom-center" />
     </div>
   );
 }

@@ -8,14 +8,14 @@ import {
 } from "../../../Components/Ui/Select";
 
 interface ImageProps {
-  setEditingImages: React.Dispatch<React.SetStateAction<taskImages[]>>;
+  setEditing: React.Dispatch<React.SetStateAction<taskImages[]>>;
   index: number;
 }
 
 
-const ChangeFlow = ({ setEditingImages, index }: ImageProps) => {
+const ChangeFlow = ({ setEditing, index }: ImageProps) => {
   const handleFlowChange = (newFlow: string) => {
-    setEditingImages((prevImages) =>
+    setEditing((prevImages) =>
       prevImages.map((img, i) =>
         i === index ? { ...img, flow: newFlow } : img
       )

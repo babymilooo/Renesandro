@@ -10,19 +10,19 @@ import {
 import { taskImages } from "../../../Types/Types";
 
 interface ImageProps {
-  image: taskImages;
-  setEditingImages: React.Dispatch<React.SetStateAction<taskImages[]>>;
+  value: taskImages;
+  setEditing: React.Dispatch<React.SetStateAction<taskImages[]>>;
   index: number;
 }
 export function ChangeDimension({
-  image,
-  setEditingImages,
+  value,
+  setEditing,
   index,
 }: ImageProps) {
-  const [dimension, setDimension] = useState(image.dimension);
+  const [dimension, setDimension] = useState(value.dimension);
 
   const handleDimensionChange = (index: number, newDimension: string) => {
-    setEditingImages((prevImages) =>
+    setEditing((prevImages) =>
       prevImages.map((img, i) =>
         i === index ? { ...img, dimension: newDimension } : img
       )
@@ -31,7 +31,9 @@ export function ChangeDimension({
 
   return (
     <div>
-      <Select onValueChange={(value) => handleDimensionChange(index, value)}>
+      <Select
+        onValueChange={(dimension) => handleDimensionChange(index, dimension)}
+      >
         <SelectTrigger className="w-full">
           <SelectValue placeholder="dimension" defaultValue={dimension} />
         </SelectTrigger>

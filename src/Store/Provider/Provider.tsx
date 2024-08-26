@@ -20,7 +20,7 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
       dimension: "1x1",
       template_id: "mwpswxcudtwxb",
       image_layers: ["image1", "image2"],
-      text_layers: [],
+      text_layers: ["text1", "text2"],
       amount: 40,
       gen_type: "cyclic_generation",
     },

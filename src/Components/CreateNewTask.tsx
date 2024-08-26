@@ -1,6 +1,8 @@
 import { InputManyImages } from "./InputManyImages";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import { v4 as uuidv4 } from "uuid";
+
 import {
   Dialog,
   DialogContent,
@@ -37,7 +39,7 @@ const CreateNewTask = () => {
 
   const handleCreate = async () => {
     const newTask: Task = {
-      id: "",
+      id: uuidv4(),
       task_name: name,
       dimension: dimention,
       template_id: templateID,
@@ -52,24 +54,8 @@ const CreateNewTask = () => {
       return;
     }
 
-    try {
-      const response = await fetch(
-        "https://tz-front-jvqis72guq-lm.a.run.app/tz-front/generate_formats",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Basic cmVuZXNhbmRybzpxd2VydHkxMjM0",
-          },
-          body: JSON.stringify(newTask),
-        }
-      );
-      const data = await response.json();
-      toast.success(data.message);
-      addTask(newTask);
-    } catch (error) {
-      console.log(error);
-    }
+    toast.success("Task created successfully");
+    addTask(newTask);
 
     setName("");
     setDimention("");
@@ -150,6 +136,9 @@ const CreateNewTask = () => {
               placeholder="Amount"
               className="col-span-2"
               value={amount}
+              min={1}
+              max={100}
+              defaultValue={1}
               onChange={(e) => setAmount(Number(e.target.value))}
             />
 
@@ -183,7 +172,6 @@ const CreateNewTask = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-      <Toaster position="bottom-center" />
     </>
   );
 };

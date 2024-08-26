@@ -3,21 +3,46 @@ import { taskImages } from "../../../Types/Types";
 import { Cross2Icon } from "@radix-ui/react-icons";
 
 interface ImageProps {
-  setEditingImages: React.Dispatch<React.SetStateAction<taskImages[]>>;
+  setEditing: React.Dispatch<React.SetStateAction<taskImages[]>>;
   index: number;
   imageRefs: string[];
+  value_type: string;
 }
 
-const ImageRefs = ({ setEditingImages, index, imageRefs }: ImageProps) => {
-  const [dragActive, setDragActive] = useState(false);
+const toBase64 = (file: File): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      resolve(reader.result as string);
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+};
 
-  const handleFilesUpload = (files: FileList) => {
-    const newRefs = Array.from(files).map((file) => URL.createObjectURL(file));
-    setEditingImages((prevImages) =>
-      prevImages.map((img, i) =>
-        i === index ? { ...img, images: [...img.images, ...newRefs] } : img
-      )
-    );
+const ImageRefs = ({
+  setEditing,
+  index,
+  value_type,
+  imageRefs,
+}: ImageProps) => {
+  const [dragActive, setDragActive] = useState(false);
+  const handleFilesUpload = async (files: FileList) => {
+    const newRefsPromises = Array.from(files).map(async (file) => {
+      const base64 = await toBase64(file);
+      return base64;
+    });
+
+    const newRefs = await Promise.all(newRefsPromises);
+
+    setEditing((prevImages) => {
+      const updatedImages = prevImages.map((img, i) =>
+        i === index && img.type === value_type
+          ? { ...img, images: [...img.images, ...newRefs] }
+          : img
+      );
+      return updatedImages;
+    });
   };
 
   const handleDragOver = (event: React.DragEvent<HTMLLabelElement>) => {
@@ -49,7 +74,7 @@ const ImageRefs = ({ setEditingImages, index, imageRefs }: ImageProps) => {
     event: React.MouseEvent<SVGElement, MouseEvent>
   ) => {
     event.preventDefault();
-    setEditingImages((prevImages) =>
+    setEditing((prevImages) =>
       prevImages.map((img, i) =>
         i === index
           ? { ...img, images: img.images.filter((image) => image !== ref) }
@@ -65,12 +90,12 @@ const ImageRefs = ({ setEditingImages, index, imageRefs }: ImageProps) => {
         type="file"
         accept="image/*"
         multiple
-        onChange={handleInputChange}
         className="hidden"
-        id={`file-upload-${index}`}
+        onChange={handleInputChange}
+        id={`file-upload-${index}-${value_type}`}
       />
       <label
-        htmlFor={`file-upload-${index}`}
+        htmlFor={`file-upload-${index}-${value_type}`}
         className={`w-full min-h-[150px] bg-neutral-200 rounded-md border border-dashed border-neutral-400 flex justify-center items-center cursor-pointer ${
           dragActive ? "bg-neutral-300" : ""
         }`}
