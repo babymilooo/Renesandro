@@ -1,15 +1,6 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
 import { v4 as uuidv4 } from "uuid";
-export type Task = {
-  id: string;
-  task_name: string;
-  dimension: string;
-  template_id: string;
-  image_layers: string[];
-  text_layers: string[];
-  amount: number;
-  gen_type: string;
-};
+import { Task } from "../../Types/Types";
 
 type TaskContextType = {
   tasks: Task[];

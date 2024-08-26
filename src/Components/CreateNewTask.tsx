@@ -22,9 +22,8 @@ import {
 import { Input } from "./Ui/Input";
 import { InputManyTexts } from "./InputManyTexts";
 import { DialogClose } from "@radix-ui/react-dialog";
-import { json } from "stream/consumers";
 import { useTaskContext } from "../Store/Hooks/useTaskContext";
-import { Task } from "../Store/Provider/Provider";
+import { Task } from "../Types/Types";
 
 const CreateNewTask = () => {
   const [imgArray, setImgArray] = useState<string[]>([]);

@@ -7,11 +7,12 @@ import {
 } from "@radix-ui/react-icons";
 import CreateNewTask from "./Components/CreateNewTask";
 import { useTaskContext } from "./Store/Hooks/useTaskContext";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, redirect, useNavigate } from "react-router-dom";
 
 function App() {
   const { tasks } = useTaskContext();
   const navigate = useNavigate();
+
   return (
     <div className="w-full h-screen">
       <div className="h-full w-full flex flex-col justify-center items-center gap-4">
@@ -70,7 +71,7 @@ function App() {
             <tbody>
               {tasks.map((item) => (
                 <tr
-                  key={item.task_name}
+                  key={item.id}
                   className="hover:bg-neutral-100 border-b border-neutral-300"
                   onClick={() => navigate(`/Renesandro/${item.id}`)}
                 >
@@ -110,7 +111,7 @@ function App() {
                   </td>
                   <td className="p-2  border-r text-sm">
                     <div className="flex gap-2 flex-wrap">
-                      {item.image_layers.map((image) => (
+                      {item.image_layers.map((image: string) => (
                         <span className="bg-gray-200 rounded-md px-1 border-gray-400 border">
                           {image}
                         </span>
@@ -119,7 +120,7 @@ function App() {
                   </td>
                   <td className="p-2  border-r text-sm">
                     <div className="flex gap-2 flex-wrap">
-                      {item.text_layers.map((text) => (
+                      {item.text_layers.map((text: string) => (
                         <span className="bg-gray-200 rounded-md px-1 border-gray-400 border">
                           {text}
                         </span>
@@ -147,7 +148,16 @@ function App() {
                   </td>
                   <td className="p-2 border-r">
                     <div className="flex justify-center">
-                      <button className="px-2 bg-green-200 border border-green-400 text-black rounded-lg">
+                      <button
+                        className="px-2 bg-green-200 border border-green-400 text-black rounded-lg"
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          window.open(
+                            `https://testapi-jvqis72guq-lm.a.run.app/test_vidro/${item.task_name}_${item.dimension}/format_validation`,
+                            "_blank"
+                          );
+                        }}
+                      >
                         Folder
                       </button>
                     </div>
