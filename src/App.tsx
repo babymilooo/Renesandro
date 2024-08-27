@@ -1,18 +1,24 @@
 import {
+  ArchiveIcon,
   ArrowLeftIcon,
   CaretDownIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
   DimensionsIcon,
   FrameIcon,
+  ImageIcon,
   LetterCaseCapitalizeIcon,
   ListBulletIcon,
+  QuestionMarkCircledIcon,
+  TextIcon,
+  UploadIcon,
 } from "@radix-ui/react-icons";
 import CreateNewTask from "./Components/CreateNewTask";
 import { useTaskContext } from "./Store/Hooks/useTaskContext";
 import { Link, Navigate, redirect, useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { useState } from "react";
+import Navbar from "./Components/Navbar";
 const ITEMS_PER_PAGE = 10;
 function App() {
   const { tasks } = useTaskContext();
@@ -31,11 +37,10 @@ function App() {
           body: JSON.stringify(task),
         }
       );
-      console.log(task);
       const data = await response.json();
       toast.success(data.message);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -51,6 +56,7 @@ function App() {
 
   return (
     <div className="w-full h-screen">
+      <Navbar />
       <div className="h-full w-full flex flex-col justify-center items-center gap-4">
         <div className="w-4/5 flex justify-end">
           <div className="rounded-lg px-2 py-1 cursor-pointer bg-neutral-900 text-white text-lg font-semibold">
@@ -82,10 +88,16 @@ function App() {
                   </div>
                 </th>
                 <th className=" p-2 font-normal bg-gray-200 text-xs text-start">
-                  Images
+                  <div className="flex gap-1">
+                    <ImageIcon className="w-4 h-4 text-neutral-500 inline-block" />
+                    Image
+                  </div>
                 </th>
                 <th className=" p-2 font-normal bg-gray-200 text-xs text-start">
-                  Text
+                  <div className="flex gap-1">
+                    <TextIcon className="w-4 h-4 text-neutral-500 inline-block" />
+                    Text
+                  </div>
                 </th>
                 <th className=" p-2 font-normal bg-gray-200 text-xs text-center w-[100px]">
                   <div className="flex justify-center gap-1">
@@ -94,13 +106,22 @@ function App() {
                   </div>
                 </th>
                 <th className=" p-2 font-normal bg-gray-200 text-xs text-start">
-                  Gen Type
+                <div className="flex gap-1">
+                    <QuestionMarkCircledIcon className="w-4 h-4 text-neutral-500 inline-block" />
+                    Gen Type
+                  </div>
                 </th>
                 <th className=" p-2 font-normal bg-gray-200 text-xs text-start w-[120px]">
-                  Gen_tasks
+                <div className="flex gap-1">
+                    <UploadIcon className="w-4 h-4 text-neutral-500 inline-block" />
+                    Gen task
+                  </div>
                 </th>
                 <th className=" p-2 font-normal bg-gray-200 text-xs text-start w-[100px]">
-                  Result Ads
+                <div className="flex gap-1">
+                    <ArchiveIcon className="w-4 h-4 text-neutral-500 inline-block" />
+                    Result Ads
+                  </div>
                 </th>
               </tr>
             </thead>
@@ -207,13 +228,6 @@ function App() {
                 </tr>
               ))}
             </tbody>
-            {/* <tfoot>
-              <tr>
-                <td colSpan={10} className="p-2 text-neutral-500 text-start">
-                  total {tasks.length}
-                </td>
-              </tr>
-            </tfoot> */}
             <tfoot>
               <tr>
                 <td colSpan={5} className="p-2 text-neutral-500 text-start">
@@ -221,13 +235,6 @@ function App() {
                 </td>
                 <td colSpan={5} className="p-2 text-neutral-500 text-start">
                   <div className="flex justify-end gap-2 items-center w-full">
-                    {/* <button
-                      className="px-4 py-2 bg-blue-500 text-white rounded-lg"
-                      onClick={() => handlePageChange(currentPage - 1)}
-                      disabled={currentPage === 1}
-                    >
-                      Previous
-                    </button> */}
                     <ChevronLeftIcon
                       className="w-6 h-6 text-neutral-500 border-2 border-neutral-500 rounded-md cursor-pointer"
                       onClick={() => handlePageChange(currentPage - 1)}
@@ -235,13 +242,6 @@ function App() {
                     <span className="text-sm text-neutral-600">
                       Page {currentPage} of {totalPages}
                     </span>
-                    {/* <button
-                      className="px-4 py-2 bg-blue-500 text-white rounded-lg"
-                      onClick={() => handlePageChange(currentPage + 1)}
-                      disabled={currentPage === totalPages}
-                    >
-                      Next
-                    </button> */}
                     <ChevronRightIcon
                       className="w-6 h-6 text-neutral-500 border-2 border-neutral-500 rounded-md cursor-pointer"
                       onClick={() => handlePageChange(currentPage + 1)}

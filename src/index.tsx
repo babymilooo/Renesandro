@@ -5,8 +5,13 @@ import App from "./App";
 import { TaskProvider } from "./Store/Provider/Provider";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import TaskComponent from "./Task";
+import Main from "./Main";
 
 const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Main />,
+  },
   {
     path: "/Renesandro",
     element: <App />,

@@ -19,6 +19,7 @@ import InputGenPerRef from "./Components/Layers/Image/InputGenPerRef";
 import toast, { Toaster } from "react-hot-toast";
 import { InputManyTexts } from "./Components/InputManyTexts";
 import InputTextRef from "./Components/Layers/Text/InputTextRef";
+import Navbar from "./Components/Navbar";
 
 const TaskComponent = () => {
   const { id } = useParams();
@@ -63,12 +64,7 @@ const TaskComponent = () => {
   }, []);
 
   const handleGenerate = async (task: taskImages) => {
-    if (
-      task.images.length === 0 ||
-      task.dimension === "" ||
-      task.style === "" ||
-      task.flow === ""
-    ) {
+    if (task.dimension === "" || task.style === "" || task.flow === "") {
       toast.error("Please fill all the fields");
       return;
     }
@@ -94,6 +90,7 @@ const TaskComponent = () => {
 
   return (
     <div className="w-full h-screen">
+      <Navbar />
       <div className="flex w-full h-full justify-center">
         <div className="flex flex-col w-1/3 mt-[200px]">
           <span className="text-start w-full font-bold text-5xl">
@@ -103,116 +100,121 @@ const TaskComponent = () => {
             Change task's parameters
           </span>
 
-          <div className="mb-10 border p-4 rounded-lg flex flex-col gap-4">
-            <div>
-              {editingText?.length > 0 && (
-                <>
-                  <span className="text-lg font-bold">Text layers</span>
-                  {editingText.map((text, index) => (
-                    <Accordion type="single" collapsible key={index}>
-                      <AccordionItem value={text.layer_name}>
-                        <AccordionTrigger>
-                          <span className="text-lg font-bold">
-                            {text.layer_name}
-                          </span>
-                        </AccordionTrigger>
-                        <AccordionContent className="flex flex-col gap-4">
-                          <ChangeDimention
-                            value={text}
-                            setEditing={setEditingText}
-                            index={index}
-                          />
-                          <ChangeFlow
-                            setEditing={setEditingText}
-                            index={index}
-                          />
-                          <div className="inline-block border-b"></div>
-
-                          <InputTextRef />
-                          <InputMutualPrompts
-                            value={text}
-                            setEditing={setEditingText}
-                            index={index}
-                          />
-                          <InputGenPerRef
-                            value={text}
-                            setEditing={setEditingText}
-                            index={index}
-                          />
-                          <SelectStyles
-                            setEditing={setEditingText}
-                            index={index}
-                          />
-                          <button
-                            className="bg-neutral-900 text-white rounded-md p-2"
-                            onClick={() => handleGenerate(text)}
-                          >
-                            Generate
-                          </button>
-                        </AccordionContent>
-                      </AccordionItem>
-                    </Accordion>
-                  ))}
-                </>
-              )}
+          {editingText.length === 0 && editingImages.length === 0 ? (
+            <div className="text-lg text-neutral-500 text-center">
+              No layers to edit
             </div>
-            <div>
-              {editingImages?.length > 0 && (
-                <>
-                  <span className="text-lg font-bold">Image layers</span>
-                  {editingImages.map((image, index) => (
-                    <Accordion type="single" collapsible key={index}>
-                      <AccordionItem value={image.layer_name}>
-                        <AccordionTrigger>
-                          <span className="text-lg font-bold">
-                            {image.layer_name}
-                          </span>
-                        </AccordionTrigger>
-                        <AccordionContent className="flex flex-col gap-4">
-                          <ChangeDimention
-                            value={image}
-                            setEditing={setEditingImages}
-                            index={index}
-                          />
-                          <ChangeFlow
-                            setEditing={setEditingImages}
-                            index={index}
-                          />
-                          <div className="inline-block border-b"></div>
-                          <ImageRefs
-                            setEditing={setEditingImages}
-                            index={index}
-                            imageRefs={image.images}
-                            value_type="image"
-                          />
-                          <InputMutualPrompts
-                            value={image}
-                            setEditing={setEditingImages}
-                            index={index}
-                          />
-                          <InputGenPerRef
-                            value={image}
-                            setEditing={setEditingImages}
-                            index={index}
-                          />
-                          <SelectStyles
-                            setEditing={setEditingImages}
-                            index={index}
-                          />
-                          <button
-                            className="bg-neutral-900 text-white rounded-md p-2"
-                            onClick={() => handleGenerate(image)}
-                          >
-                            Generate
-                          </button>
-                        </AccordionContent>
-                      </AccordionItem>
-                    </Accordion>
-                  ))}
-                </>
-              )}
+          ) : (
+            <div className="mb-10 border p-4 rounded-lg flex flex-col gap-4">
+              <div>
+                {editingText.length > 0 && (
+                  <>
+                    <span className="text-lg font-bold">Text layers</span>
+                    {editingText.map((text, index) => (
+                      <Accordion type="single" collapsible key={index}>
+                        <AccordionItem value={text.layer_name}>
+                          <AccordionTrigger>
+                            <span className="text-lg font-bold">
+                              {text.layer_name}
+                            </span>
+                          </AccordionTrigger>
+                          <AccordionContent className="flex flex-col gap-4">
+                            <ChangeDimention
+                              value={text}
+                              setEditing={setEditingText}
+                              index={index}
+                            />
+                            <ChangeFlow
+                              setEditing={setEditingText}
+                              index={index}
+                            />
+                            <div className="inline-block border-b"></div>
+                            <InputTextRef />
+                            <InputMutualPrompts
+                              value={text}
+                              setEditing={setEditingText}
+                              index={index}
+                            />
+                            <InputGenPerRef
+                              value={text}
+                              setEditing={setEditingText}
+                              index={index}
+                            />
+                            <SelectStyles
+                              setEditing={setEditingText}
+                              index={index}
+                            />
+                            <button
+                              className="bg-neutral-900 text-white rounded-md p-2"
+                              onClick={() => handleGenerate(text)}
+                            >
+                              Generate
+                            </button>
+                          </AccordionContent>
+                        </AccordionItem>
+                      </Accordion>
+                    ))}
+                  </>
+                )}
+              </div>
+              <div>
+                {editingImages.length > 0 && (
+                  <>
+                    <span className="text-lg font-bold">Image layers</span>
+                    {editingImages.map((image, index) => (
+                      <Accordion type="single" collapsible key={index}>
+                        <AccordionItem value={image.layer_name}>
+                          <AccordionTrigger>
+                            <span className="text-lg font-bold">
+                              {image.layer_name}
+                            </span>
+                          </AccordionTrigger>
+                          <AccordionContent className="flex flex-col gap-4">
+                            <ChangeDimention
+                              value={image}
+                              setEditing={setEditingImages}
+                              index={index}
+                            />
+                            <ChangeFlow
+                              setEditing={setEditingImages}
+                              index={index}
+                            />
+                            <div className="inline-block border-b"></div>
+                            <ImageRefs
+                              setEditing={setEditingImages}
+                              index={index}
+                              imageRefs={image.images}
+                              value_type="image"
+                            />
+                            <InputMutualPrompts
+                              value={image}
+                              setEditing={setEditingImages}
+                              index={index}
+                            />
+                            <InputGenPerRef
+                              value={image}
+                              setEditing={setEditingImages}
+                              index={index}
+                            />
+                            <SelectStyles
+                              setEditing={setEditingImages}
+                              index={index}
+                            />
+                            <button
+                              className="bg-neutral-900 text-white rounded-md p-2"
+                              onClick={() => handleGenerate(image)}
+                            >
+                              Generate
+                            </button>
+                          </AccordionContent>
+                        </AccordionItem>
+                      </Accordion>
+                    ))}
+                  </>
+                )}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
       <Toaster position="bottom-center" />
