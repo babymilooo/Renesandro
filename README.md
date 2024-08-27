@@ -1,5 +1,5 @@
 # Getting Started with Create React App
-Check this project ### https://babymilooo.github.io/Renesandro
+Check this project https://babymilooo.github.io/Renesandro
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
