@@ -1,13 +1,15 @@
 {
   "files": {
-    "main.css": "/Renesandro/static/css/main.b0e7bdd7.css",
-    "main.js": "/Renesandro/static/js/main.da964af1.js",
-    "index.html": "/Renesandro/index.html",
-    "main.b0e7bdd7.css.map": "/Renesandro/static/css/main.b0e7bdd7.css.map",
-    "main.da964af1.js.map": "/Renesandro/static/js/main.da964af1.js.map"
+    "main.css": "/static/css/main.df33c502.css",
+    "main.js": "/static/js/main.70fbe445.js",
+    "static/media/avatar_1.jpg": "/static/media/avatar_1.dd0653bb8be818a9feb6.jpg",
+    "static/media/logo.png": "/static/media/logo.a8e1368b30b736078427.png",
+    "index.html": "/index.html",
+    "main.df33c502.css.map": "/static/css/main.df33c502.css.map",
+    "main.70fbe445.js.map": "/static/js/main.70fbe445.js.map"
   },
   "entrypoints": [
-    "static/css/main.b0e7bdd7.css",
-    "static/js/main.da964af1.js"
+    "static/css/main.df33c502.css",
+    "static/js/main.70fbe445.js"
   ]
 }
